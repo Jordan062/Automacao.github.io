@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Raullysson Silva — Automação para pequenos negócios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#14171B;
+    --panel:#1B1F24;
+    --panel-2:#20252C;
+    --line:#2B3036;
+    --text:#EDEEF0;
+    --muted:#9CA3AC;
+    --amber:#F2B84B;
+    --teal:#37B39E;
+    --radius:14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif; font-weight:600; letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px;}
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(20,23,27,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:72px;}
+  .logo{display:flex; align-items:center; gap:10px; font-family:'Space Grotesk'; font-weight:700; font-size:18px;}
+  .logo .dot{width:9px; height:9px; border-radius:50%; background:var(--amber); box-shadow:0 0 0 4px rgba(242,184,75,0.15);}
+  .navlinks{display:flex; gap:32px; font-size:14px; color:var(--muted);}
+  .navlinks a:hover{color:var(--text);}
+  .nav-cta{
+    background:var(--amber); color:#14171B; font-weight:600; font-size:14px;
+    padding:10px 18px; border-radius:8px; transition:transform .15s ease, opacity .15s ease;
+  }
+  .nav-cta:hover{transform:translateY(-1px); opacity:0.92;}
+  @media(max-width:760px){ .navlinks{display:none;} }
+
+  /* HERO */
+  .hero{padding:88px 0 40px; position:relative;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono'; font-size:12px; color:var(--teal);
+    background:rgba(55,179,158,0.08); border:1px solid rgba(55,179,158,0.25);
+    padding:6px 12px; border-radius:100px; margin-bottom:24px;
+  }
+  .eyebrow .pulse{width:6px; height:6px; border-radius:50%; background:var(--teal); animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:.3;}}
+  .hero h1{font-size:52px; line-height:1.08; max-width:760px;}
+  .hero h1 span{color:var(--amber);}
+  .hero p.lead{color:var(--muted); font-size:18px; max-width:560px; margin-top:20px;}
+  .hero-cta{display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;}
+  .btn-primary{
+    background:var(--amber); color:#14171B; font-weight:600; padding:14px 24px; border-radius:9px; font-size:15px;
+    transition:transform .15s ease;
+  }
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-secondary{
+    border:1px solid var(--line); color:var(--text); padding:14px 24px; border-radius:9px; font-size:15px; font-weight:500;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .btn-secondary:hover{border-color:var(--muted); transform:translateY(-2px);}
+  @media(max-width:600px){ .hero h1{font-size:36px;} }
+
+  /* WORKFLOW DIAGRAM */
+  .canvas-wrap{margin-top:64px; border:1px solid var(--line); border-radius:var(--radius); background:var(--panel); padding:28px 20px; overflow-x:auto;}
+  .canvas-label{font-family:'JetBrains Mono'; font-size:12px; color:var(--muted); margin-bottom:16px; text-transform:uppercase; letter-spacing:.06em;}
+  svg{display:block; width:100%; height:auto; min-width:640px;}
+  .node-box{fill:var(--panel-2); stroke:var(--line); stroke-width:1;}
+  .node-label{font-family:'JetBrains Mono', monospace; font-size:12px; fill:var(--text);}
+  .node-sub{font-family:'Inter', sans-serif; font-size:10.5px; fill:var(--muted);}
+  .flow-line{stroke:var(--line); stroke-width:1.5; fill:none;}
+  .packet{fill:var(--amber);}
+  .packet2{fill:var(--teal);}
+
+  /* SECTION GENERIC */
+  section{padding:96px 0;}
+  .section-head{max-width:600px; margin-bottom:56px;}
+  .section-tag{font-family:'JetBrains Mono'; font-size:12px; color:var(--amber); text-transform:uppercase; letter-spacing:.08em; margin-bottom:14px; display:block;}
+  .section-head h2{font-size:32px;}
+  .section-head p{color:var(--muted); margin-top:14px; font-size:16px;}
+
+  /* SERVICES */
+  .services-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:20px;}
+  @media(max-width:760px){.services-grid{grid-template-columns:1fr;}}
+  .service-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius);
+    padding:28px; transition:border-color .2s ease, transform .2s ease;
+  }
+  .service-card:hover{border-color:var(--amber); transform:translateY(-3px);}
+  .service-card .icon{
+    width:40px; height:40px; border-radius:9px; background:var(--panel-2); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; margin-bottom:18px; color:var(--amber); font-size:18px;
+  }
+  .service-card h3{font-size:18px; margin-bottom:10px;}
+  .service-card p{color:var(--muted); font-size:14.5px;}
+  .service-card .tags{margin-top:16px; display:flex; gap:8px; flex-wrap:wrap;}
+  .service-card .tag{font-family:'JetBrains Mono'; font-size:10.5px; color:var(--teal); background:rgba(55,179,158,0.08); border:1px solid rgba(55,179,158,0.2); padding:3px 8px; border-radius:100px;}
+
+  /* PROCESS */
+  .process{display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+  @media(max-width:860px){.process{grid-template-columns:1fr;}}
+  .step{padding:32px 26px; border-right:1px solid var(--line); background:var(--panel);}
+  .step:last-child{border-right:none;}
+  @media(max-width:860px){.step{border-right:none; border-bottom:1px solid var(--line);}}
+  .step-num{font-family:'JetBrains Mono'; color:var(--amber); font-size:13px; margin-bottom:14px; display:block;}
+  .step h3{font-size:16px; margin-bottom:8px;}
+  .step p{color:var(--muted); font-size:13.5px;}
+
+  /* PORTFOLIO */
+  .portfolio-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:20px;}
+  @media(max-width:760px){.portfolio-grid{grid-template-columns:1fr;}}
+  .case-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:0; overflow:hidden;
+  }
+  .case-top{padding:26px 26px 0;}
+  .case-status{font-family:'JetBrains Mono'; font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--teal); margin-bottom:12px; display:block;}
+  .case-card h3{font-size:17px; margin-bottom:10px;}
+  .case-card p{color:var(--muted); font-size:14px;}
+  .case-metrics{display:flex; gap:22px; padding:20px 26px 26px; margin-top:16px; border-top:1px solid var(--line);}
+  .metric-num{font-family:'Space Grotesk'; font-size:20px; color:var(--amber);}
+  .metric-label{font-family:'JetBrains Mono'; font-size:10.5px; color:var(--muted); margin-top:2px;}
+
+  /* ABOUT */
+  .about{display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start;}
+  @media(max-width:800px){.about{grid-template-columns:1fr;}}
+  .about-stats{display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:28px;}
+  .stat-box{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:20px;}
+  .stat-box .num{font-family:'Space Grotesk'; font-size:26px; color:var(--teal);}
+  .stat-box .label{font-family:'JetBrains Mono'; font-size:11px; color:var(--muted); margin-top:4px;}
+  .about p{color:var(--muted); font-size:15.5px;}
+  .about p + p{margin-top:14px;}
+
+  /* CONTACT */
+  .contact-box{
+    background:linear-gradient(135deg, var(--panel) 0%, var(--panel-2) 100%);
+    border:1px solid var(--line); border-radius:20px; padding:56px 40px; text-align:center;
+  }
+  .contact-box h2{font-size:30px; margin-bottom:14px;}
+  .contact-box p{color:var(--muted); max-width:480px; margin:0 auto 32px;}
+  .contact-links{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+
+  footer{border-top:1px solid var(--line); padding:32px 0; text-align:center;}
+  footer p{color:var(--muted); font-size:13px; font-family:'JetBrains Mono';}
+
+  ::selection{background:var(--amber); color:#14171B;}
+
+  @media (prefers-reduced-motion: reduce){
+    .packet, .packet2, .eyebrow .pulse{animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="dot"></span>Raullysson<span style="color:var(--muted); font-weight:400;">.automação</span></div>
+    <div class="navlinks">
+      <a href="#servicos">Serviços</a>
+      <a href="#processo">Como funciona</a>
+      <a href="#portfolio">Portfólio</a>
+      <a href="#sobre">Sobre</a>
+    </div>
+    <a class="nav-cta" href="#contato">Falar no WhatsApp</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow"><span class="pulse"></span>Disponível para novos projetos</span>
+    <h1>Automação que tira tarefa repetitiva do seu negócio <span>e devolve tempo pra você.</span></h1>
+    <p class="lead">Construo fluxos de automação (WhatsApp, planilhas, dashboards e integrações) para pequenos negócios e vendedores que querem parar de fazer manual o que um sistema pode fazer sozinho.</p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="#contato">Pedir um diagnóstico grátis</a>
+      <a class="btn-secondary" href="#portfolio">Ver projetos</a>
+    </div>
+
+    <div class="canvas-wrap">
+      <div class="canvas-label">// como uma automação sua pode funcionar</div>
+      <svg viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg">
+        <path class="flow-line" d="M140,100 H300"/>
+        <path class="flow-line" d="M440,100 H600"/>
+        <path class="flow-line" d="M740,100 H860"/>
+
+        <circle class="packet" r="4"><animateMotion dur="2.2s" repeatCount="indefinite" path="M140,100 H300"/></circle>
+        <circle class="packet2" r="4"><animateMotion dur="2.2s" begin="0.5s" repeatCount="indefinite" path="M440,100 H600"/></circle>
+        <circle class="packet" r="4"><animateMotion dur="2.2s" begin="1s" repeatCount="indefinite" path="M740,100 H860"/></circle>
+
+        <rect class="node-box" x="10" y="70" width="130" height="60" rx="10"/>
+        <text class="node-label" x="30" y="95">cliente escreve</text>
+        <text class="node-sub" x="30" y="112">WhatsApp / Instagram</text>
+
+        <rect class="node-box" x="300" y="70" width="140" height="60" rx="10"/>
+        <text class="node-label" x="320" y="95">n8n + Evolution API</text>
+        <text class="node-sub" x="320" y="112">entende e organiza</text>
+
+        <rect class="node-box" x="600" y="70" width="140" height="60" rx="10"/>
+        <text class="node-label" x="620" y="95">ação automática</text>
+        <text class="node-sub" x="620" y="112">planilha / CRM / resposta</text>
+
+        <rect class="node-box" x="860" y="70" width="130" height="60" rx="10" stroke="var(--teal)"/>
+        <text class="node-label" x="880" y="95" fill="var(--teal)">você recebe</text>
+        <text class="node-sub" x="880" y="112">pronto, sem esforço</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<section id="servicos">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">Serviços</span>
+      <h2>O que eu construo</h2>
+      <p>Soluções sob medida, sempre pensando em uma coisa: quanto tempo isso economiza por semana.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="icon">💬</div>
+        <h3>Automação de atendimento no WhatsApp</h3>
+        <p>Fluxos com menu interativo, respostas automáticas e roteamento de leads, usando n8n + Evolution API. Ideal para clínicas, lojas e prestadores de serviço que perdem tempo respondendo as mesmas perguntas.</p>
+        <div class="tags"><span class="tag">n8n</span><span class="tag">WhatsApp</span><span class="tag">Evolution API</span></div>
+      </div>
+      <div class="service-card">
+        <div class="icon">📊</div>
+        <h3>Dashboards e controle financeiro</h3>
+        <p>Painéis simples que mostram o que realmente importa: lucro por produto, por venda, por período — sem planilha bagunçada. Já construí para lojistas de marketplace e freelancers.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Flask</span><span class="tag">Dashboards</span></div>
+      </div>
+      <div class="service-card">
+        <div class="icon">🎯</div>
+        <h3>Geração de leads locais</h3>
+        <p>Sistema que encontra e organiza contatos de negócios de um nicho e região específicos, e entrega prontos para abordagem — sem prospecção manual no Google.</p>
+        <div class="tags"><span class="tag">Google Places API</span><span class="tag">Google Sheets</span></div>
+      </div>
+      <div class="service-card">
+        <div class="icon">🛒</div>
+        <h3>Integrações com marketplaces</h3>
+        <p>Conexão direta com APIs de plataformas como Shopee para trazer dados de pedidos e transformar em métricas de lucro real, por SKU, automaticamente.</p>
+        <div class="tags"><span class="tag">Shopee API</span><span class="tag">Automação de dados</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="processo">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">Processo</span>
+      <h2>Como funciona um projeto</h2>
+      <p>Sem enrolação: eu entendo o problema, construo, entrego funcionando e fico por perto pra ajustar.</p>
+    </div>
+    <div class="process">
+      <div class="step">
+        <span class="step-num">01</span>
+        <h3>Diagnóstico</h3>
+        <p>Conversa rápida pra entender o que está tomando seu tempo hoje e o que vale automatizar primeiro.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <h3>Construção</h3>
+        <p>Monto o fluxo ou painel, testando com dados reais do seu negócio antes de qualquer entrega.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <h3>Entrega</h3>
+        <p>Você recebe funcionando, com um passo a passo simples de como usar no dia a dia.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <h3>Suporte</h3>
+        <p>Acompanho as primeiras semanas de uso e ajusto o que for preciso sem custo extra.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag">Portfólio</span>
+      <h2>Projetos recentes</h2>
+      <p>Alguns dos sistemas que já construí — para meu próprio negócio e para validar com clientes reais.</p>
+    </div>
+    <div class="portfolio-grid">
+      <div class="case-card">
+        <div class="case-top">
+          <span class="case-status">Em validação</span>
+          <h3>Lucro Real Shopee</h3>
+          <p>Dashboard que conecta com a API da Shopee e mostra o lucro real por produto vendido — sem planilha manual. Feito para vendedores solo que não sabem se estão realmente lucrando.</p>
+        </div>
+        <div class="case-metrics">
+          <div><div class="metric-num">API</div><div class="metric-label">Shopee Open Platform</div></div>
+          <div><div class="metric-num">SKU</div><div class="metric-label">lucro por produto</div></div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-top">
+          <span class="case-status">Concluído</span>
+          <h3>Atendimento automático via WhatsApp</h3>
+          <p>Fluxo completo com menu interativo em n8n para pequenos negócios locais, incluindo triagem de dúvidas frequentes antes de passar para atendimento humano.</p>
+        </div>
+        <div class="case-metrics">
+          <div><div class="metric-num">n8n</div><div class="metric-label">stack de automação</div></div>
+          <div><div class="metric-num">24/7</div><div class="metric-label">resposta imediata</div></div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-top">
+          <span class="case-status">Concluído</span>
+          <h3>Motor de geração de leads locais</h3>
+          <p>Sistema com dois fluxos (captura noturna + envio matinal) que busca negócios de um nicho numa região e organiza tudo pronto para contato, via Google Places API.</p>
+        </div>
+        <div class="case-metrics">
+          <div><div class="metric-num">2</div><div class="metric-label">fluxos automatizados</div></div>
+          <div><div class="metric-num">0</div><div class="metric-label">prospecção manual</div></div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-top">
+          <span class="case-status">Concluído</span>
+          <h3>App financeiro para freelancers</h3>
+          <p>Aplicação web com painel escuro, gráficos e controle de entradas e saídas, construída a partir de uma planilha real de um freelancer.</p>
+        </div>
+        <div class="case-metrics">
+          <div><div class="metric-num">Flask</div><div class="metric-label">+ SQLite</div></div>
+          <div><div class="metric-num">Mobile</div><div class="metric-label">first</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sobre">
+  <div class="wrap">
+    <div class="about">
+      <div>
+        <span class="section-tag">Sobre mim</span>
+        <h2 style="font-size:28px; margin-bottom:18px;">Raullysson Silva</h2>
+        <p>Sou de Goiânia e venho de vendas — trabalhei com prospecção ativa (SDR) antes de migrar para automação. Isso muda como eu construo sistema: penso sempre em quem vai usar do outro lado, não só em código.</p>
+        <p>Hoje aplico Python, n8n e integrações de API para tirar trabalho manual de negócios pequenos e de vendedores de marketplace, e estou construindo meu próprio produto (Lucro Real Shopee) em paralelo.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-box"><div class="num">SDR</div><div class="label">background comercial</div></div>
+        <div class="stat-box"><div class="num">Python</div><div class="label">automação & backend</div></div>
+        <div class="stat-box"><div class="num">n8n</div><div class="label">orquestração de fluxos</div></div>
+        <div class="stat-box"><div class="num">GYN</div><div class="label">baseado em Goiânia</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contato">
+  <div class="wrap">
+    <div class="contact-box">
+      <h2>Vamos automatizar alguma parte do seu negócio?</h2>
+      <p>Me conta o que está tomando seu tempo hoje. Em uma conversa rápida eu já digo se dá pra automatizar e como.</p>
+      <div class="contact-links">
+        <a class="btn-primary" href="https://wa.me/55SEUNUMEROAQUI" target="_blank">Chamar no WhatsApp</a>
+        <a class="btn-secondary" href="https://instagram.com/SEUUSUARIO" target="_blank">Instagram</a>
+        <a class="btn-secondary" href="https://linkedin.com/in/SEUUSUARIO" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>// raullysson.automação — Goiânia, BR</p>
+  </div>
+</footer>
+
+</body>
+</html>
